@@ -31,9 +31,8 @@ function interactable(a, b, wx, wy) {
   let blen = b.length;
   for (let i = 0; i < alen; i++) {
     for (let j = 0; j < blen; j++) {
-      //console.log("cout << try: ", a[i], b[j]);
       if (!isOverlap(a[i], b[j], wx, wy)) {
-        //console.log("cout << found!");
+        console.log("cout << try: ", a[i], b[j], wx, wy);
         return true;
       }
     }
@@ -74,7 +73,7 @@ function doIt(input){
     }
   }
 
-  //console.log(ps);
+  console.log(ps);
 
   let wlens = Object.keys(ps);
   let maxWingLen = wlens[0];
@@ -98,20 +97,23 @@ function doIt(input){
 
   let subWingLen = 0;
   ilen = orderedWingLens.length;
+  let maxArea = 0;
   for (let i = 0; i < ilen; i++) {
     for (let j = i; j < ilen; j++) {
       let wx = orderedWingLens[i];
       let wy = orderedWingLens[j];
       if (interactable(ps[wx], ps[wy], wx, wy)) {
-        return (wx*4 + 1) * (wy*4 + 1);
+        let area = (wx*4 + 1) * (wy*4 + 1);
+        if (area > maxArea) {
+          maxArea = area;
+        }
       }
     }
   }
   
-  return 0;
+  return maxArea;
 };
 
-/*
 console.log("cout << expected:  5 vs " + doIt([
   "GGGGGG",
   "GBBBGB",
@@ -138,19 +140,50 @@ console.log("cout << expected: 45 vs " + doIt([
   "GBGBGGB",
   "GBGBGGB"
 ]));
-*/
+
+console.log("cout << expected: 81 vs " + doIt([
+  "GGGGGGGG",
+  "GBGBGGBG",
+  "GBGBGGBG",
+  "GGGGGGGG",
+  "GBGBGGBG",
+  "GGGGGGGG",
+  "GBGBGGBG",
+  "GGGGGGGG"
+]));
+
+console.log("cout << expected: 81 vs " + doIt([
+  "GGGGGGGGGGGG",
+  "GBGGBBBBBBBG",
+  "GBGGBBBBBBBG",
+  "GGGGGGGGGGGG",
+  "GGGGGGGGGGGG",
+  "GGGGGGGGGGGG",
+  "GGGGGGGGGGGG",
+  "GBGGBBBBBBBG",
+  "GBGGBBBBBBBG",
+  "GBGGBBBBBBBG",
+  "GGGGGGGGGGGG",
+  "GBGGBBBBBBBG"
+]));
 
 /**
-  * 0 1 2 3 4 5 6 
- 0* + _ + _ + + _ 
- 1* + _ 0 _ + + _ 
- 2* + _ 0 _ + + _ 
- 3* 0 0 0 0 0 + + 
- 4* + + 0 + + + + 
- 5* + _ 0 _ + + _ 
- 6* + _ + _ + + _ 
+     0 1 2 3 4 5 6 7 8 9 0 1
+  0 + + + + + + + + + + + + 
+  1 + _ + + _ _ _ _ _ _ _ +
+  2 + _ + + _ _ _ _ _ _ _ +
+  3 + + + + + + + + + + + + 
+  4 + + + + + + + + + + + + 
+  5 + + + + + + + + + + + + 
+  6 + + + + + + + + + + + + 
+  7 + _ + + _ _ _ _ _ _ _ +
+  8 + _ + + _ _ _ _ _ _ _ +
+  9 + _ + + _ _ _ _ _ _ _ +
+  0 + + + + + + + + + + + + 
+  1 + _ + + _ _ _ _ _ _ _ +
  */
 
+/*
 const fs = require('fs');
 
 process.stdin.resume();
@@ -197,4 +230,5 @@ function main() {
 
     ws.end();
 }
+*/
 
