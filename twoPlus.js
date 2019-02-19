@@ -32,7 +32,7 @@ function interactable(a, b, wx, wy) {
   for (let i = 0; i < alen; i++) {
     for (let j = 0; j < blen; j++) {
       if (!isOverlap(a[i], b[j], wx, wy)) {
-        console.log("cout << try: ", a[i], b[j], wx, wy);
+        //console.log("cout << try: ", a[i], b[j], wx, wy);
         return true;
       }
     }
@@ -42,12 +42,14 @@ function interactable(a, b, wx, wy) {
 
 function doIt(input){
   let ps = {};
+  ps['0'] = [];
   let ilen = input.length;
   let jlen = input[0].length;
   for (let i = 0; i < ilen; i++) {
     for(let j = 0; j < jlen; j++) {
       if (input[i].charAt(j) == 'B')
         continue;
+      ps[0].push([i, j]);
       let wl = 1;
       while (
         (i+wl) < ilen
@@ -66,14 +68,14 @@ function doIt(input){
         &&
         input[i].charAt(j-wl) == 'G'
       ) {
+        ps[wl] = ps[wl] || [];
+        ps[wl].push([i, j]);
         wl++;
       }
-      ps[(wl-1)] = ps[(wl-1)] || [];
-      ps[(wl-1)].push([i, j]);
     }
   }
 
-  console.log(ps);
+  //console.log(ps);
 
   let wlens = Object.keys(ps);
   let maxWingLen = wlens[0];
@@ -114,6 +116,7 @@ function doIt(input){
   return maxArea;
 };
 
+/*
 console.log("cout << expected:  5 vs " + doIt([
   "GGGGGG",
   "GBBBGB",
@@ -166,24 +169,24 @@ console.log("cout << expected: 81 vs " + doIt([
   "GGGGGGGGGGGG",
   "GBGGBBBBBBBG"
 ]));
+*/
 
 /**
-     0 1 2 3 4 5 6 7 8 9 0 1
+    0 1 2 3 4 5 6 7 8 9 0 1
   0 + + + + + + + + + + + + 
-  1 + _ + + _ _ _ _ _ _ _ +
-  2 + _ + + _ _ _ _ _ _ _ +
-  3 + + + + + + + + + + + + 
-  4 + + + + + + + + + + + + 
-  5 + + + + + + + + + + + + 
-  6 + + + + + + + + + + + + 
-  7 + _ + + _ _ _ _ _ _ _ +
-  8 + _ + + _ _ _ _ _ _ _ +
+  1 + _ 0 + _ _ _ _ _ _ _ +
+  2 + _ 0 + _ _ _ _ _ _ _ +
+  3 0 0 % 0 0 + + + + + + + 
+  4 + + 0 0 + + + + + + + + 
+  5 + + 0 0 + + + + + + + + 
+  6 + 0 0 % 0 0 + + + + + + 
+  7 + _ + 0 _ _ _ _ _ _ _ +
+  8 + _ + 0 _ _ _ _ _ _ _ +
   9 + _ + + _ _ _ _ _ _ _ +
   0 + + + + + + + + + + + + 
   1 + _ + + _ _ _ _ _ _ _ +
  */
 
-/*
 const fs = require('fs');
 
 process.stdin.resume();
@@ -230,5 +233,4 @@ function main() {
 
     ws.end();
 }
-*/
 
